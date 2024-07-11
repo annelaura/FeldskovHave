@@ -38,8 +38,13 @@ def check_connection(ip_address):
     except Exception as e:
         print(f"An error occurred: {e}")
 
-# Replace '192.168.1.100' with the actual IP address
-check_connection(pi_ip)
+# Input for IP address
+ip_address = st.text_input("Enter the IP address of the Raspberry Pi", value="192.168.1.100")
+
+# Button to check connection
+if st.button("Check Connection"):
+    connection_status = check_connection(ip_address)
+    st.write(connection_status)
 
 # Cleanup message
 st.write("Use Ctrl+C in the terminal to stop the app and cleanup GPIO on the Raspberry Pi")
