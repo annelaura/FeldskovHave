@@ -2,7 +2,7 @@ import streamlit as st
 import requests
 
 # Replace this with the IP address and port of your Raspberry Pi Flask server
-pi_url = "http://192.168.1.207:5000"
+pi_url = "http://192.168.8.101:5000"
 
 # Streamlit app
 st.title("Relay Test")
