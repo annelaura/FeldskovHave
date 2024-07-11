@@ -30,7 +30,7 @@ def check_connection(ip_address):
         return f"An error occurred: {e}"
 
 # Input for IP address
-ip_address = st.text_input("Enter the IP address of the Raspberry Pi", value="192.168.1.100")
+ip_address = st.text_input("Enter the IP address of the Raspberry Pi", value="192.168.8.101")
 st.write(f"Your Raspberry Pi is at {ip_address}")
 
 # Button to check connection
