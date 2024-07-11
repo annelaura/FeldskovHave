@@ -1,39 +1,25 @@
 import streamlit as st
-import time
+import requests
 
-# Try importing the RPi.GPIO library, and fallback to mock GPIO if not available
-try:
-    import RPi.GPIO as GPIO
-except (ImportError, RuntimeError):
-    from mock_gpio import GPIO
-
-# GPIO setup
-GPIO.setmode(GPIO.BCM)
-relays = [17, 18, 27, 22]  # Define your GPIO pins connected to the relays
-
-# Initialize all relays to OFF
-for relay in relays:
-    GPIO.setup(relay, GPIO.OUT)
-    GPIO.output(relay, GPIO.LOW)
+# Replace this with the IP address of your Raspberry Pi
+pi_url = "http://localhost:5000"
 
 # Streamlit app
 st.title("Relay Test")
 
 # Function to set relay state
 def set_relay(relay, state):
-    GPIO.output(relay, state)
+    try:
+        response = requests.post(f"{pi_url}/set_relay", json={'relay': relay, 'state': state})
+        return response.text
+    except Exception as e:
+        return str(e)
 
 # Relay control checkboxes
 relay_states = {}
-for i, relay in enumerate(relays):
+for i, relay in enumerate([17, 18, 27, 22]):
     relay_states[i] = st.checkbox(f'Activate Relay {i+1}')
-    set_relay(relay, GPIO.HIGH if relay_states[i] else GPIO.LOW)
-    st.write(f'Relay {i+1} is {"ON" if relay_states[i] else "OFF"}')
+    result = set_relay(i, 'ON' if relay_states[i] else 'OFF')
+    st.write(f'Relay {i+1} is {"ON" if relay_states[i] else "OFF"} - {result}')
 
-# Cleanup on exit
-st.write("Use Ctrl+C in the terminal to stop the app and cleanup GPIO")
-try:
-    while True:
-        time.sleep(0.1)
-except KeyboardInterrupt:
-    GPIO.cleanup()
+st.write("Use Ctrl+C in the terminal to stop the app and cleanup GPIO on the Raspberry Pi")
