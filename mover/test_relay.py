@@ -17,12 +17,15 @@ def set_relay(relay, state):
     except Exception as e:
         return str(e)
 
+# Define GPIO pins connected to the relays
+relay_pins = [17, 18, 27, 22]
+
 # Relay control checkboxes
 relay_states = {}
-for i, relay in enumerate([17, 18, 27, 22]):
-    relay_states[relay] = st.checkbox(f'Activate Relay {i+1}')
-    result = set_relay(relay, 'ON' if relay_states[relay] else 'OFF')
-    st.write(f'Relay {i+1} (GPIO Pin {relay}) is {"ON" if relay_states[relay] else "OFF"} - {result}')
+for i, pin in enumerate(relay_pins):
+    relay_states[pin] = st.checkbox(f'Activate Relay {i+1}')
+    result = set_relay(pin, 'ON' if relay_states[pin] else 'OFF')
+    st.write(f'Relay {i+1} (GPIO Pin {pin}) is {"ON" if relay_states[pin] else "OFF"} - {result}')
 
 # Cleanup message
 st.write("Use Ctrl+C in the terminal to stop the app and cleanup GPIO on the Raspberry Pi")
