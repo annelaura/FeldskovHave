@@ -1,0 +1,71 @@
+# to set up raspberry pi:
+1. connect to 5v - 2.5A power supply
+2. download raspberry pi software to macbook from raspberrypi.com, install and upload software to miniSD
+3. plug miniSD into raspberry pi, set up user, pwd and wifi
+4. ssh from mac to raspberry based on ip address from pi: ssh annelaura@192.168.1.207, pwd: raspberrypi
+5. cd FH/mover
+6. source mover/bin/activate
+7. streamlit run motor_control.py or test_relay.py
+
+Hardware Setup
+    Raspberry Pi         Relay Module/Motor Driver
+    ----------------     -------------------------
+    GPIO 17 (Pin 11)     -> IN1
+    GPIO 18 (Pin 12)     -> IN2
+    GPIO 27 (Pin 13)     -> IN3
+    GPIO 22 (Pin 15)     -> IN4
+    GND (Pin 6)          -> GND
+        
+
+    Motor Driver         Motor
+    ----------------     -------------------------
+    IN1                  -> + Left motor
+    IN2                  -> - Left motor
+    IN3                  -> + Right motor
+    IN4                  -> - Right motor
+    +12V                 -> +12V
+    -12V                 -> -12V
+
+Software Setup: 
+    see motor_control.py and test_relay.py
+
+
+
+# to setup  wifi  to iphone network
+1. Configure Wi-Fi on Raspberry Pi:
+
+sudo vim /etc/wpa_supplicant/wpa_supplicant.conf
+
+network={
+    ssid="src"
+    psk="asantesana"
+    key_mgmt=WPA-PSK
+}
+
+sudo wpa_cli -i wlan0 reconfigure
+
+2. # get pi's ip address
+hostname -I
+
+3. setup shell script to run app on reboot
+vim ~/start_streamlit.sh
+
+#!/bin/bash
+cd /FH/mover/
+streamlit run test_relay.py
+
+chmod +x ~/start_streamlit.sh
+
+crontab -e
+
+@reboot /home/pi/start_streamlit.sh
+
+# Make sure to replace /home/pi/start_streamlit.sh with the actual path to your script if it's different.
+
+sudo reboot
+
+#After rebooting, the Raspberry Pi should automatically connect to your iPhone's hotspot and run the Streamlit app. You can then access it via the browser on your iPhone:
+
+http://<raspberry_pi_ip>:8501
+
+
