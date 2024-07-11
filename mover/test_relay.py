@@ -18,25 +18,16 @@ def set_relay(relay, state):
     except Exception as e:
         return str(e)
 
-# Define GPIO pins connected to the relays
-relay_pins = [17, 18, 27, 22]
-
-# Relay control checkboxes
-relay_states = {}
-for i, pin in enumerate(relay_pins):
-    relay_states[pin] = st.checkbox(f'Activate Relay {i+1}')
-    result = set_relay(pin, 'ON' if relay_states[pin] else 'OFF')
-    st.write(f'Relay {i+1} (GPIO Pin {pin}) is {"ON" if relay_states[pin] else "OFF"} - {result}')
-
+# Function to check connection to Raspberry Pi
 def check_connection(ip_address):
     try:
         response = requests.get(f"http://{ip_address}/status")
         if response.status_code == 200:
-            print("Successfully connected to the remote server.")
+            return "Successfully connected to the remote server."
         else:
-            print("Failed to connect to the remote server.")
+            return "Failed to connect to the remote server."
     except Exception as e:
-        print(f"An error occurred: {e}")
+        return f"An error occurred: {e}"
 
 # Input for IP address
 ip_address = st.text_input("Enter the IP address of the Raspberry Pi", value="192.168.1.100")
@@ -45,6 +36,16 @@ ip_address = st.text_input("Enter the IP address of the Raspberry Pi", value="19
 if st.button("Check Connection"):
     connection_status = check_connection(ip_address)
     st.write(connection_status)
+
+    # Define GPIO pins connected to the relays
+relay_pins = [17, 18, 27, 22]
+
+# Relay control checkboxes
+relay_states = {}
+for i, pin in enumerate(relay_pins):
+    relay_states[pin] = st.checkbox(f'Activate Relay {i+1}')
+    result = set_relay(pin, 'ON' if relay_states[pin] else 'OFF')
+    st.write(f'Relay {i+1} (GPIO Pin {pin}) is {"ON" if relay_states[pin] else "OFF"} - {result}')
 
 # Cleanup message
 st.write("Use Ctrl+C in the terminal to stop the app and cleanup GPIO on the Raspberry Pi")
