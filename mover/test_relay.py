@@ -8,7 +8,7 @@ pi_ip = "192.168.8.102"
 # Streamlit app
 st.title("Relay Test")
 
-st.write("This is meant as a simple relay test, and will be replaced with the real app soon")
+st.write("This is meant as a simple relay test, and will be replaced with the real app soon TEST")
 
 # Function to send relay state to Raspberry Pi
 def set_relay(relay, state):
