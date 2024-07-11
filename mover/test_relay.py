@@ -31,21 +31,22 @@ def check_connection(ip_address):
 
 # Input for IP address
 ip_address = st.text_input("Enter the IP address of the Raspberry Pi", value="192.168.1.100")
+st.write(f"Your Raspberry Pi is at {ip_address}")
 
 # Button to check connection
 if st.button("Check Connection"):
     connection_status = check_connection(ip_address)
     st.write(connection_status)
 
-    # Define GPIO pins connected to the relays
-relay_pins = [17, 18, 27, 22]
+# # Define GPIO pins connected to the relays
+# relay_pins = [17, 18, 27, 22]
 
-# Relay control checkboxes
-relay_states = {}
-for i, pin in enumerate(relay_pins):
-    relay_states[pin] = st.checkbox(f'Activate Relay {i+1}')
-    result = set_relay(pin, 'ON' if relay_states[pin] else 'OFF')
-    st.write(f'Relay {i+1} (GPIO Pin {pin}) is {"ON" if relay_states[pin] else "OFF"} - {result}')
+# # Relay control checkboxes
+# relay_states = {}
+# for i, pin in enumerate(relay_pins):
+#     relay_states[pin] = st.checkbox(f'Activate Relay {i+1}')
+#     result = set_relay(pin, 'ON' if relay_states[pin] else 'OFF')
+#     st.write(f'Relay {i+1} (GPIO Pin {pin}) is {"ON" if relay_states[pin] else "OFF"} - {result}')
 
 # Cleanup message
 st.write("Use Ctrl+C in the terminal to stop the app and cleanup GPIO on the Raspberry Pi")
