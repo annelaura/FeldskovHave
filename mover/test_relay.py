@@ -1,6 +1,11 @@
 import streamlit as st
-import RPi.GPIO as GPIO
 import time
+
+# Try importing the RPi.GPIO library, and fallback to mock GPIO if not available
+try:
+    import RPi.GPIO as GPIO
+except (ImportError, RuntimeError):
+    from mock_gpio import GPIO
 
 # GPIO setup
 GPIO.setmode(GPIO.BCM)
