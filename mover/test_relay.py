@@ -2,8 +2,8 @@ import streamlit as st
 import requests
 
 # Replace this with the IP address and port of your Raspberry Pi Flask server
-pi_url = "http://192.168.8.102:5000"
-pi_ip = "192.168.8.102"
+pi_url = "http://192.168.1.207:5000"
+pi_ip = "192.168.1.207"
 
 # Streamlit app
 st.title("Relay Test")
@@ -30,7 +30,7 @@ def check_connection(ip_address):
         return f"An error occurred: {e}"
 
 # Input for IP address
-ip_address = st.text_input("Enter the IP address of the Raspberry Pi", value="192.168.8.101")
+ip_address = st.text_input("Enter the IP address of the Raspberry Pi", value=pi_ip)
 st.write(f"Your Raspberry Pi is at {ip_address}")
 
 # Button to check connection
