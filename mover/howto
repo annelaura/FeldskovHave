@@ -31,41 +31,22 @@ Software Setup:
 
 
 
-# to setup  wifi  to iphone network
-1. Configure Wi-Fi on Raspberry Pi:
+# to setup  router to allow port forwarding: 
+* find ip address: hostname -I (eg. 192.168.8.100)
+* login to router on ip (eg. 192.168.8.1), user: admin, pwd: hundekilde
+* go to security, virtual something and setup port forwarding 
+* go to DDNS and setup DDNS: feldskov.have
+* test setup by ping feldskov.have or whatismydsn.com
 
-sudo vim /etc/wpa_supplicant/wpa_supplicant.conf
+# setup flask server on pi:
+*cd FH/mover
+*sudo vim flask_server.py
+*setup shell script to start server on reboot:
+vim ~/start_flask.sh
+sudo chmod +x ~/start_flask.sh
 
-network={
-    ssid="src"
-    psk="asantesana"
-    key_mgmt=WPA-PSK
-}
+# setup github repo with streamlit app
+# host app on streamlit cloud
 
-sudo wpa_cli -i wlan0 reconfigure
-
-2. # get pi's ip address
-hostname -I
-
-3. setup shell script to run app on reboot
-vim ~/start_streamlit.sh
-
-#!/bin/bash
-cd /FH/mover/
-streamlit run test_relay.py
-
-chmod +x ~/start_streamlit.sh
-
-crontab -e
-
-@reboot /home/pi/start_streamlit.sh
-
-# Make sure to replace /home/pi/start_streamlit.sh with the actual path to your script if it's different.
-
-sudo reboot
-
-#After rebooting, the Raspberry Pi should automatically connect to your iPhone's hotspot and run the Streamlit app. You can then access it via the browser on your iPhone:
-
-http://<raspberry_pi_ip>:8501
 
 
